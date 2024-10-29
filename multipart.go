@@ -191,7 +191,6 @@ func multipartUploadFile(ft *fastToken, file string, sp *saveProgress) (e error)
 					oss.SetHeader("x-oss-security-token", ot.SecurityToken),
 					oss.UserAgentHeader(aliUserAgent),
 					oss.Progress(&multipartProgressListener{}),
-					oss.ContentMD5(md5B64),
 				)
 				if err == nil {
 					break
