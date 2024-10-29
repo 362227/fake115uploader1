@@ -139,7 +139,7 @@ func multipartUploadFile(ft *fastToken, file string, sp *saveProgress) (e error)
 		imur, err = bucket.InitiateMultipartUpload(ft.Object,
 			oss.SetHeader("x-oss-security-token", ot.SecurityToken),
 			oss.UserAgentHeader(aliUserAgent),
-                        ss.Sequential(),			   
+                        oss.Sequential(),			   
 		)
 		checkErr(err)
 	}
