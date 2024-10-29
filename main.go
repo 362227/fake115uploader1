@@ -21,7 +21,7 @@ import (
 	"time"
 
 	"github.com/eiannone/keyboard"
-	"github.com/orzogc/fake115uploader/cipher"
+	"github.com/362227/fake115uploader/cipher"
 	"github.com/valyala/fastjson"
 )
 
