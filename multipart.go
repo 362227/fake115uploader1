@@ -139,6 +139,7 @@ func multipartUploadFile(ft *fastToken, file string, sp *saveProgress) (e error)
 		imur, err = bucket.InitiateMultipartUpload(ft.Object,
 			oss.SetHeader("x-oss-security-token", ot.SecurityToken),
 			oss.UserAgentHeader(aliUserAgent),
+                        ss.Sequential(),			   
 		)
 		checkErr(err)
 	}
@@ -190,6 +191,7 @@ func multipartUploadFile(ft *fastToken, file string, sp *saveProgress) (e error)
 					oss.SetHeader("x-oss-security-token", ot.SecurityToken),
 					oss.UserAgentHeader(aliUserAgent),
 					oss.Progress(&multipartProgressListener{}),
+					oss.ContentMD5(md5B64),
 				)
 				if err == nil {
 					break
@@ -232,6 +234,7 @@ func multipartUploadFile(ft *fastToken, file string, sp *saveProgress) (e error)
 		oss.CallbackVar(cbVar),
 		oss.UserAgentHeader(aliUserAgent),
 		oss.GetResponseHeader(&header),
+		oss.SetHeader("x-oss-hash-sha1", ft.SHA1),				    
 	)
 	// EOF 错误是 xml 的 Unmarshal 导致的，响应其实是 json 格式，所以实际上上传是成功的
 	if err != nil && !errors.Is(err, io.EOF) {
