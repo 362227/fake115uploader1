@@ -138,7 +138,7 @@ func multipartUploadFile(ft *fastToken, file string, sp *saveProgress) (e error)
 		}
 		imur, err = bucket.InitiateMultipartUpload(ft.Object,
 			oss.SetHeader("x-oss-security-token", ot.SecurityToken),
-			oss.SetHeader("x-oss-forbid-overwrite", "false"),  // 设置为 false 允许覆盖					   
+			oss.SetHeader("HTTPHeaderOssForbidOverWrite", "false"),  // 设置为 false 允许覆盖					   
 			oss.UserAgentHeader(aliUserAgent),		   
                         oss.Sequential(),			   
 		)
@@ -190,7 +190,7 @@ func multipartUploadFile(ft *fastToken, file string, sp *saveProgress) (e error)
 				f.Seek(chunk.Offset, io.SeekStart)
 				part, err = bucket.UploadPart(imur, f, chunk.Size, chunk.Number,
 					oss.SetHeader("x-oss-security-token", ot.SecurityToken),
-					oss.SetHeader("x-oss-forbid-overwrite", "false"),  // 设置为 false 允许覆盖		      
+					oss.SetHeader("HTTPHeaderOssForbidOverWrite", "false"),  // 设置为 false 允许覆盖		      
 					oss.UserAgentHeader(aliUserAgent),
 					oss.Progress(&multipartProgressListener{}),
 				)
@@ -235,7 +235,7 @@ func multipartUploadFile(ft *fastToken, file string, sp *saveProgress) (e error)
 		oss.CallbackVar(cbVar),
 		oss.UserAgentHeader(aliUserAgent),
 		oss.GetResponseHeader(&header),
-		oss.SetHeader("x-oss-forbid-overwrite", "false"),  // 设置为 false 允许覆盖			    
+		oss.SetHeader("HTTPHeaderOssForbidOverWrite", "false"),  // 设置为 false 允许覆盖			    
 		oss.SetHeader("x-oss-hash-sha1", ft.SHA1),				    
 	)
 	// EOF 错误是 xml 的 Unmarshal 导致的，响应其实是 json 格式，所以实际上上传是成功的
