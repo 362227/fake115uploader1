@@ -139,6 +139,7 @@ func multipartUploadFile(ft *fastToken, file string, sp *saveProgress) (e error)
 		imur, err = bucket.InitiateMultipartUpload(ft.Object,
 			oss.SetHeader("x-oss-security-token", ot.SecurityToken),
 			oss.UserAgentHeader(aliUserAgent),
+			oss.SetHeader("x-oss-forbid-overwrite", "false"),  // 设置为 false 允许覆盖				   
                         oss.Sequential(),			   
 		)
 		checkErr(err)
@@ -189,6 +190,7 @@ func multipartUploadFile(ft *fastToken, file string, sp *saveProgress) (e error)
 				f.Seek(chunk.Offset, io.SeekStart)
 				part, err = bucket.UploadPart(imur, f, chunk.Size, chunk.Number,
 					oss.SetHeader("x-oss-security-token", ot.SecurityToken),
+					oss.SetHeader("x-oss-forbid-overwrite", "false"),  // 设置为 false 允许覆盖		      
 					oss.UserAgentHeader(aliUserAgent),
 					oss.Progress(&multipartProgressListener{}),
 				)
